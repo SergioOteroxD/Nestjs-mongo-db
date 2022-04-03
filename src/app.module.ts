@@ -8,6 +8,7 @@ import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
 import config from './config';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -21,6 +22,9 @@ import config from './config';
       //   DATABASE_PORT: Joi.number().required(),
       // }),
     }),
+    MongooseModule.forRoot(
+      `mongodb://root:root@localhost:27017/?authSource=admin&readPreference=primary`,
+    ),
     HttpModule,
     UsersModule,
     ProductsModule,

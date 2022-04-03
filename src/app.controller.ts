@@ -12,7 +12,7 @@ export class AppController {
 
   @Get('nuevo')
   newEndpoint() {
-    return 'yo soy nuevo';
+    return 'this.appService.getProduct()';
   }
 
   @Get('/ruta/')
