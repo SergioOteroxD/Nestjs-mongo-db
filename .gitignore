@@ -36,4 +36,4 @@ lerna-debug.log*
 
 *.spec.ts
 *.yml
-./mongo_data
+/mongo_data
