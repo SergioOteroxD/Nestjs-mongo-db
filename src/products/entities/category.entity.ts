@@ -5,7 +5,7 @@ import { Document } from 'mongoose';
 @Schema()
 export class Category extends Document {
   @Prop()
-  id: number;
+  image: string;
 
   @Prop()
   name: string;
