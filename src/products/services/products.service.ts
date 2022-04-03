@@ -5,56 +5,29 @@ import { CreateProductDto, UpdateProductDto } from './../dtos/products.dtos';
 
 @Injectable()
 export class ProductsService {
-  private counterId = 1;
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'Producto 1',
-      description: 'lorem lorem',
-      price: 10000,
-      stock: 300,
-      image: 'https://i.imgur.com/U4iGx1j.jpeg',
-    },
-  ];
-
   findAll() {
-    return this.products;
+    return 'a';
   }
 
   findOne(id: number) {
-    const product = this.products.find((item) => item.id === id);
-    if (!product) {
+    if (10) {
       throw new NotFoundException(`Product #${id} not found`);
     }
-    return product;
+    return 'a';
   }
 
   create(data: CreateProductDto) {
-    this.counterId = this.counterId + 1;
-    const newProduct = {
-      id: this.counterId,
-      ...data,
-    };
-    this.products.push(newProduct);
-    return newProduct;
+    return 'a';
   }
 
   update(id: number, changes: UpdateProductDto) {
-    const product = this.findOne(id);
-    const index = this.products.findIndex((item) => item.id === id);
-    this.products[index] = {
-      ...product,
-      ...changes,
-    };
-    return this.products[index];
+    return 'a';
   }
 
   remove(id: number) {
-    const index = this.products.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Product #${id} not found`);
-    }
-    this.products.splice(index, 1);
+    // if (index === -1) {
+    //   throw new NotFoundException(`Product #${id} not found`);
+    // }
     return true;
   }
 }
