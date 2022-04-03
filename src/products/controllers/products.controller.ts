@@ -1,16 +1,11 @@
 import {
   Controller,
   Get,
-  Query,
-  Param,
   Post,
-  Body,
   Put,
   Delete,
-  HttpStatus,
-  HttpCode,
-  Res,
-  // ParseIntPipe,
+  Param,
+  Body,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
@@ -26,11 +21,7 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'List of products' })
-  getProducts(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string,
-  ) {
+  getProducts() {
     // return {
     //   message: `products limit=> ${limit} offset=> ${offset} brand=> ${brand}`,
     // };
@@ -43,7 +34,6 @@ export class ProductsController {
   }
 
   @Get(':productId')
-  @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('productId', ParseIntPipe) productId: number) {
     // response.status(200).send({
     //   message: `product ${productId}`,
