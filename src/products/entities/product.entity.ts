@@ -5,9 +5,6 @@ import { Document } from 'mongoose';
 @Schema()
 export class Product extends Document {
   @Prop()
-  id: number;
-
-  @Prop()
   name: string;
 
   @Prop()
@@ -22,3 +19,5 @@ export class Product extends Document {
   @Prop()
   image: string;
 }
+
+export const ProductSchema = SchemaFactory.createForClass(Product);
