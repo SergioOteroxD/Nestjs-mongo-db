@@ -6,10 +6,12 @@ import { UsersController } from './controllers/users.controller';
 import { UsersService } from './services/users.service';
 
 import { ProductsModule } from '../products/products.module';
+import { OrderService } from './services/order.service';
+import { OrderController } from './controllers/order.controller';
 
 @Module({
   imports: [ProductsModule],
-  controllers: [CustomerController, UsersController],
-  providers: [CustomersService, UsersService],
+  controllers: [CustomerController, UsersController, OrderController],
+  providers: [CustomersService, UsersService, OrderService],
 })
 export class UsersModule {}
