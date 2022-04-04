@@ -15,12 +15,12 @@ export class OrderController {
   constructor(private orderService: OrderService) {}
   @Get()
   getAll() {
-    return this.orderService.getAll();
+    return this.orderService.findAll();
   }
 
   @Get(':id')
   getOne(@Param('id') id: string) {
-    return this.orderService.getOne(id);
+    return this.orderService.findOne(id);
   }
 
   @Post()
@@ -35,6 +35,6 @@ export class OrderController {
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.orderService.delete(id);
+    return this.orderService.remove(id);
   }
 }

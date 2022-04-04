@@ -6,7 +6,6 @@ import {
   Body,
   Put,
   Delete,
-  ParseIntPipe,
 } from '@nestjs/common';
 
 import { UsersService } from '../services/users.service';
