@@ -2,29 +2,41 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Category } from '../entities/category.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dtos';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CategoriesService {
-  findAll() {
-    return 'a';
+  constructor(
+    @InjectModel(Category.name) private categoryModel: Model<Category>,
+  ) {}
+  async findAll() {
+    const products = await this.categoryModel.find().exec();
+    return products;
   }
 
-  findOne(id: number) {
-    // if (!category) {
-    //   throw new NotFoundException(`Category #${id} not found`);
-    // }
-    return 'a';
+  async findOne(id: string) {
+    const product = await this.categoryModel.findById(id).exec();
+    if (!product) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    return product;
   }
 
-  create(data: CreateCategoryDto) {
-    return 'newCategory';
+  async create(data: CreateCategoryDto) {
+    const product = await new this.categoryModel(data);
+    return product.save();
   }
 
-  update(id: number, changes: UpdateCategoryDto) {
-    return 'this.categories[index]';
+  async update(id: string, changes: UpdateCategoryDto) {
+    const product = await this.categoryModel
+      .findByIdAndUpdate(id, changes, { new: true })
+      .exec();
+    return product;
   }
 
-  remove(id: number) {
+  async remove(id: string) {
+    await this.categoryModel.findByIdAndDelete(id).exec();
     return true;
   }
 }
