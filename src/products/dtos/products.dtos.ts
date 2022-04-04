@@ -38,6 +38,7 @@ export class CreateProductDto {
 
   @IsNotEmpty()
   @ValidateNested()
+  @ApiProperty()
   readonly category: CreateCategoryDto;
 }
 
