@@ -1,30 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+
+import { Model } from 'mongoose';
 
 import { Brand } from '../entities/brand.entity';
 import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dtos';
 
 @Injectable()
 export class BrandsService {
-  findAll() {
-    return 'this.brands';
+  constructor(@InjectModel(Brand.name) private brandModel: Model<Brand>) {}
+  async findAll() {
+    const brand = await this.brandModel.find().exec();
+    return brand;
   }
 
-  findOne(id: number) {
-    // if (!product) {
-    //   throw new NotFoundException(`Brand #${id} not found`);
-    // }
-    return 'product';
+  async findOne(id: string) {
+    const brand = await this.brandModel.findById(id).exec();
+    if (!brand) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    return brand;
   }
 
-  create(data: CreateBrandDto) {
-    return 'newBrand';
+  async create(data: CreateBrandDto) {
+    const brand = await new this.brandModel(data);
+    return brand.save();
   }
 
-  update(id: number, changes: UpdateBrandDto) {
-    return 'his.brands[index]';
+  async update(id: string, changes: UpdateBrandDto) {
+    const brand = await this.brandModel
+      .findByIdAndUpdate(id, changes, { new: true })
+      .exec();
+    return brand;
   }
 
-  remove(id: number) {
+  async remove(id: string) {
+    await this.brandModel.findByIdAndDelete(id).exec();
     return true;
   }
 }
