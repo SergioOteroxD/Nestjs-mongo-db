@@ -10,7 +10,11 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<typeof Product>,
   ) {}
   async findAll() {
-    const products = await this.productModel.find().populate('brand').exec();
+    const products = await this.productModel
+      .find()
+      .populate('brand')
+      .populate('category')
+      .exec();
     return products;
   }
 
