@@ -26,8 +26,8 @@ export class UsersService {
   }
 
   async create(data: CreateUserDto) {
-    const user = await new this.userModel(data);
-    return user.save();
+    const user = new this.userModel(data);
+    return await user.save();
   }
 
   async update(id: string, changes: UpdateUserDto) {
@@ -38,6 +38,10 @@ export class UsersService {
   }
 
   async remove(id: string) {
+    const user = this.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User #${id} not found`);
+    }
     await this.userModel.findByIdAndDelete(id).exec();
     return true;
   }
