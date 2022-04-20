@@ -22,3 +22,9 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
+
+export class FindEmail {
+  @IsString()
+  @IsEmail()
+  readonly email: string;
+}

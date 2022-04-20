@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 
 import { User } from '../entities/user.entity';
 import { Order } from '../entities/order.entity';
-import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
+import { CreateUserDto, UpdateUserDto, FindEmail } from '../dtos/user.dto';
 
 import { ProductsService } from './../../products/services/products.service';
 import { InjectModel } from '@nestjs/mongoose';
@@ -26,7 +26,8 @@ export class UsersService {
     return user;
   }
 
-  async findEmail(email: string) {
+  async findEmail(findemail: FindEmail) {
+    const email = findemail.email;
     return await this.userModel.findOne({ $where: email });
   }
 
