@@ -23,9 +23,9 @@ import { AuthModule } from './auth/auth.module';
       //   DATABASE_PORT: Joi.number().required(),
       // }),
     }),
-    MongooseModule.forRoot(
-      `mongodb://root:root@localhost:27017/?authSource=admin&readPreference=primary`,
-    ),
+    // MongooseModule.forRoot(
+    //   `mongodb://root:root@localhost:27017/?authSource=admin&readPreference=primary`,
+    // ),
     HttpModule,
     UsersModule,
     ProductsModule,
