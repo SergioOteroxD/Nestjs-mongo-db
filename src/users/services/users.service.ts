@@ -26,9 +26,9 @@ export class UsersService {
     return user;
   }
 
-  async findEmail(findemail: FindEmail) {
-    const email = findemail.email;
-    return await this.userModel.findOne({ $where: email });
+  async findEmail(findemail: string) {
+    const email = findemail;
+    return await this.userModel.findOne({ email: email }).exec();
   }
 
   async create(data: CreateUserDto) {
@@ -46,7 +46,7 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    const user = this.findOne(id);
+    const user = await this.findOne(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
