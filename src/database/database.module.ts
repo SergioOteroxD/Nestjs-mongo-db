@@ -20,7 +20,7 @@ import config from '../config';
         } = congigService.mongo;
         return {
           uri: `${connection}://${user}:${password}@${host}:${port}/?authSource=admin&readPreference=primary`,
-          dbName: `${dbname}`,
+          //dbName: `${dbname}`,
         };
       },
     }),

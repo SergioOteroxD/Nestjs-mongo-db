@@ -6,6 +6,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { AuthService } from './../services/auth.service';
 
 import config from 'src/config';
+import { TokenModel } from '../model/token.model';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -18,5 +19,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       ignoreExpiration: false,
       secretOrKey: configService.jwtSecret,
     });
+  }
+
+  validate(payload: TokenModel) {
+    return payload;
   }
 }
