@@ -20,8 +20,15 @@ export class CreateOrderDto {
   readonly user: string;
 
   @ApiProperty()
+  @IsNotEmpty()
   @IsArray()
   readonly product: string[];
 }
 
 export class UpdateOrder extends PartialType(CreateOrderDto) {}
+
+export class AddProducttoOrder {
+  @IsNotEmpty()
+  @IsArray()
+  readonly productIds: string[];
+}
