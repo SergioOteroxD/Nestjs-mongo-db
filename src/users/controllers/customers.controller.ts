@@ -9,9 +9,14 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
+import { ApiTags } from '@nestjs/swagger';
+
+import { MongoIdPipePipe } from '../../common/mongo-id-pipe.pipe';
+
 import { CustomersService } from '../services/customers.service';
 import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
 
+@ApiTags('Customer')
 @Controller('customers')
 export class CustomerController {
   constructor(private customersService: CustomersService) {}
@@ -22,7 +27,7 @@ export class CustomerController {
   }
 
   @Get(':id')
-  get(@Param('id') id: string) {
+  get(@Param('id', MongoIdPipePipe) id: string) {
     return this.customersService.findOne(id);
   }
 
@@ -32,12 +37,15 @@ export class CustomerController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateCustomerDto) {
+  update(
+    @Param('id', MongoIdPipePipe) id: string,
+    @Body() payload: UpdateCustomerDto,
+  ) {
     return this.customersService.update(id, payload);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', MongoIdPipePipe) id: string) {
     return this.customersService.remove(id);
   }
 }

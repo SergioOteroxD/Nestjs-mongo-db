@@ -27,8 +27,8 @@ export class ProductsService {
   }
 
   async create(data: CreateProductDto) {
-    const product = await new this.productModel(data);
-    return product.save();
+    const product = new this.productModel(data);
+    return await product.save();
   }
 
   async update(id: string, changes: UpdateProductDto) {

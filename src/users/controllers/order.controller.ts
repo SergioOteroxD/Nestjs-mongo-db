@@ -7,9 +7,15 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+
+import { ApiTags } from '@nestjs/swagger';
+
+import { MongoIdPipePipe } from '../../common/mongo-id-pipe.pipe';
+
 import { OrderService } from '../services/order.service';
 import { CreateOrderDto, UpdateOrder } from '../dtos/order.dto';
 
+@ApiTags('Order')
 @Controller('order')
 export class OrderController {
   constructor(private orderService: OrderService) {}
@@ -19,7 +25,7 @@ export class OrderController {
   }
 
   @Get(':id')
-  getOne(@Param('id') id: string) {
+  getOne(@Param('id', MongoIdPipePipe) id: string) {
     return this.orderService.findOne(id);
   }
 
@@ -29,12 +35,15 @@ export class OrderController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() changes: UpdateOrder) {
+  update(
+    @Param('id', MongoIdPipePipe) id: string,
+    @Body() changes: UpdateOrder,
+  ) {
     return this.orderService.update(id, changes);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id', MongoIdPipePipe) id: string) {
     return this.orderService.remove(id);
   }
 }

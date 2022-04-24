@@ -10,6 +10,8 @@ import {
 
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
+import { MongoIdPipePipe } from '../../common/mongo-id-pipe.pipe';
+
 import { ProductsService } from './../services/products.service';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
 
@@ -36,7 +38,7 @@ export class ProductsController {
 
   @Get(':productId')
   @Public()
-  getOne(@Param('productId') productId: string) {
+  getOne(@Param('productId', MongoIdPipePipe) productId: string) {
     // response.status(200).send({
     //   message: `product ${productId}`,
     // });
@@ -51,13 +53,16 @@ export class ProductsController {
 
   @Roles(Role.ADMIN)
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
+  update(
+    @Param('id', MongoIdPipePipe) id: string,
+    @Body() payload: UpdateProductDto,
+  ) {
     return this.productsService.update(id, payload);
   }
 
   @Roles(Role.ADMIN)
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id', MongoIdPipePipe) id: string) {
     return this.productsService.remove(id);
   }
 }
