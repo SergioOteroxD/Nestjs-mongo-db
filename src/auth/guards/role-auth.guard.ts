@@ -19,7 +19,7 @@ export class RoleAuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const isRole = this.reflector.get<Role[]>(ROLE_KEY, context.getHandler());
-    console.log(isRole);
+    //console.log(isRole);
     if (!isRole) {
       return true;
     }
@@ -27,7 +27,7 @@ export class RoleAuthGuard implements CanActivate {
     const reques = context.switchToHttp().getRequest();
     const user = reques.user as TokenModel;
 
-    console.log(`user ${user}`);
+    console.log(`Role ${user.role}`);
     const isAuth = isRole.some((item) => item === user.role);
     if (!isAuth) {
       throw new UnauthorizedException('No tienes el rol');

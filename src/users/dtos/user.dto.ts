@@ -1,5 +1,12 @@
-import { IsString, IsNotEmpty, IsEmail, Length } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  Length,
+  NotEquals,
+} from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
+import { Role } from '../../auth/model/role.model';
 
 export class CreateUserDto {
   @IsString()
@@ -17,7 +24,8 @@ export class CreateUserDto {
   @Length(6)
   readonly password: string;
 
-  @IsNotEmpty()
+  @IsString()
+  @NotEquals(Role.ADMIN)
   readonly role: string;
 }
 
