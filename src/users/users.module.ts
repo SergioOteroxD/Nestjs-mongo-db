@@ -23,7 +23,12 @@ import { ProfileController } from './controllers/profile.controller';
       { name: Customer.name, schema: CustomerSchema },
     ]),
   ],
-  controllers: [CustomerController, UsersController, OrderController, ProfileController],
+  controllers: [
+    CustomerController,
+    UsersController,
+    OrderController,
+    ProfileController,
+  ],
   providers: [CustomersService, UsersService, OrderService],
   exports: [UsersService],
 })

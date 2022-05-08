@@ -6,6 +6,7 @@ import {
   Body,
   Put,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { UseGuards } from '@nestjs/common';
@@ -13,6 +14,8 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RoleAuthGuard } from 'src/auth/guards/role-auth.guard';
 
 import { ApiTags } from '@nestjs/swagger';
+
+import { SanitizeMongooseModelInterceptor } from 'nestjs-mongoose-exclude';
 
 import { MongoIdPipePipe } from '../../common/mongo-id-pipe.pipe';
 
@@ -24,6 +27,7 @@ import { Role } from 'src/auth/model/role.model';
 @UseGuards(JwtAuthGuard, RoleAuthGuard)
 @ApiTags('Users')
 @Controller('users')
+@UseInterceptors(new SanitizeMongooseModelInterceptor())
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

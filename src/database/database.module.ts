@@ -20,6 +20,26 @@ import config from '../config';
         } = congigService.mongo;
         return {
           uri: `${connection}://${user}:${password}@${host}:${port}/?authSource=admin&readPreference=primary`,
+          connectionName: 'testxd',
+          //dbName: `${dbname}`,
+        };
+      },
+    }),
+    MongooseModule.forRootAsync({
+      inject: [config.KEY],
+      useFactory: (congigService: ConfigType<typeof config>) => {
+        const {
+          connection,
+          dbname,
+          host,
+          password,
+          port,
+          user,
+        } = congigService.mongo;
+        return {
+          uri: `${connection}://${user}:${password}@${host}:${port}/?authSource=admin&readPreference=primary`,
+          connectionName: 'sergio',
+          dbName: 'sergio',
           //dbName: `${dbname}`,
         };
       },
