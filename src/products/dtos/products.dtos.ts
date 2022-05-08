@@ -7,6 +7,9 @@ import {
   ValidateNested,
   IsMongoId,
   IsArray,
+  IsOptional,
+  Min,
+  ValidateIf,
 } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 import { CreateCategoryDto } from './category.dtos';
@@ -50,3 +53,36 @@ export class CreateProductDto {
 }
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {}
+
+export class FiltrarProduct {
+  // Paginación
+
+  @IsOptional()
+  @IsNumber()
+  limit: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  offset: number;
+
+  // Price
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  minPrice: number;
+
+  @ValidateIf((param) => param.minPrice)
+  @IsPositive()
+  maxPrice: number;
+
+  @IsPositive()
+  @IsOptional()
+  eqPrice: number;
+
+  // Brand
+  //@IsMongoId()
+  @IsOptional()
+  eqBrand: string;
+}

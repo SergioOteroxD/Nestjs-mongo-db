@@ -1,4 +1,5 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
+import { Exclude } from 'class-transformer';
 
 import { Document } from 'mongoose';
 import { ExcludeProperty } from 'nestjs-mongoose-exclude';
