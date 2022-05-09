@@ -37,7 +37,7 @@ export class ProductsController {
   @ApiOperation({ summary: 'List of products' })
   @Get()
   @Public()
-  getProducts(@Query() param: FiltrarProduct) {
+  getProducts(@Query() param?: FiltrarProduct) {
     return this.productsService.findAll(param);
   }
 

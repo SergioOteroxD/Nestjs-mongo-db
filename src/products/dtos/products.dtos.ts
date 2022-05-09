@@ -81,8 +81,36 @@ export class FiltrarProduct {
   @IsOptional()
   eqPrice: number;
 
+  // Stock
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  minStock: number;
+
+  @ValidateIf((param) => param.minPrice)
+  @IsPositive()
+  maxStock: number;
+
+  @IsPositive()
+  @IsOptional()
+  eqStock: number;
+
   // Brand
-  //@IsMongoId()
+
+  @IsMongoId()
   @IsOptional()
   eqBrand: string;
+
+  // Category
+
+  @IsMongoId()
+  @IsOptional()
+  eqCategory: string;
+
+  // Name
+
+  @IsString()
+  @IsOptional()
+  eqName: string;
 }

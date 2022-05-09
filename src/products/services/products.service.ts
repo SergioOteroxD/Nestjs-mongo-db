@@ -8,34 +8,72 @@ import {
 } from './../dtos/products.dtos';
 import { Product } from '../entities/product.entity';
 import { Brand } from '../entities/brand.entity';
+import { Category } from '../entities/category.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
     @InjectModel(Brand.name) private brandModel: Model<Brand>,
+    @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
   async findAll(param?: FiltrarProduct) {
     const filter: FilterQuery<Product> = {};
-    if (param) {
+    const validateParam =
+      param.eqBrand ||
+      param.eqCategory ||
+      param.eqPrice ||
+      param.maxPrice ||
+      param.minPrice ||
+      param.eqName;
+    //console.log(validateParam);
+    if (validateParam) {
       // Price
-      const auth = param.eqPrice && !param.maxPrice && !param.minPrice;
-      if (auth) {
+      const validatePrice = param.eqPrice && !param.maxPrice && !param.minPrice;
+      if (validatePrice) {
         filter.price = { $eq: param.eqPrice };
       }
       if (param.maxPrice && param.minPrice) {
         filter.price = { $gte: param.minPrice, $lte: param.maxPrice };
       }
 
+      // Stock
+      if (param.minStock && param.minStock) {
+        filter.stock = { $gte: param.minStock, $lte: param.maxStock };
+      } else {
+        if (param.eqStock) {
+          filter.stock = { $eq: param.eqStock };
+        }
+      }
+
       // Brand
       if (param.eqBrand) {
         //console.log(`param.eqBrand: ${param.eqBrand}`);
         const findBrand = await this.brandModel.findById(param.eqBrand);
-        if (findBrand) {
+        if (!findBrand) {
           throw new NotFoundException(`Brand # ${param.eqBrand} not found`);
         }
         filter.brand = { $eq: param.eqBrand };
       }
+
+      //Category
+      if (param.eqCategory) {
+        const findCategory = await this.categoryModel.findById(
+          param.eqCategory,
+        );
+        if (!findCategory) {
+          throw new NotFoundException(
+            `Category # ${param.eqCategory} not found`,
+          );
+        }
+        filter.category = { $eq: param.eqCategory };
+      }
+
+      //Name
+      if (param.eqName) {
+        filter.name = { $eq: param.eqName };
+      }
+
       const products = await this.productModel
         .find(filter)
         .skip(param.offset || 0)
@@ -43,14 +81,19 @@ export class ProductsService {
         .populate('brand')
         .populate('category')
         .exec();
-      return products;
+
+      const count = await this.productModel.find(filter).count().exec();
+      return { products, count };
     }
     const products = await this.productModel
       .find()
+      .skip(param.offset)
+      .limit(param.limit)
       .populate('brand')
       .populate('category')
       .exec();
-    return products;
+    const count = await this.productModel.find(filter).count().exec();
+    return { products, count };
   }
 
   async findOne(id: string) {
