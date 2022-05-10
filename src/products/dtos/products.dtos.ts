@@ -88,7 +88,7 @@ export class FiltrarProduct {
   @Min(0)
   minStock: number;
 
-  @ValidateIf((param) => param.minPrice)
+  @ValidateIf((param) => param.minStock)
   @IsPositive()
   maxStock: number;
 

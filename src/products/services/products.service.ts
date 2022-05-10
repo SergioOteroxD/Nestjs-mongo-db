@@ -9,6 +9,7 @@ import {
 import { Product } from '../entities/product.entity';
 import { Brand } from '../entities/brand.entity';
 import { Category } from '../entities/category.entity';
+import { isNotEmptyObject } from 'class-validator';
 
 @Injectable()
 export class ProductsService {
@@ -19,14 +20,8 @@ export class ProductsService {
   ) {}
   async findAll(param?: FiltrarProduct) {
     const filter: FilterQuery<Product> = {};
-    const validateParam =
-      param.eqBrand ||
-      param.eqCategory ||
-      param.eqPrice ||
-      param.maxPrice ||
-      param.minPrice ||
-      param.eqName;
-    //console.log(validateParam);
+    const validateParam = isNotEmptyObject(param);
+    // console.log(validateParam);
     if (validateParam) {
       // Price
       const validatePrice = param.eqPrice && !param.maxPrice && !param.minPrice;
